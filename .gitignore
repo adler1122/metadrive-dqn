@@ -1,0 +1,17 @@
+# Environments
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Models and Checkpoints
+models/*.pt
+models/*.pth
+
+# OS generated files
+.DS_Store
+Thumbs.db
