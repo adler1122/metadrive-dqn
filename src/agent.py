@@ -6,7 +6,7 @@ import random
 from src.network import DQNNetwork
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, lr=1e-3, gamma=0.99):
+    def __init__(self, state_size, action_size, lr=3e-4, gamma=0.99):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma
