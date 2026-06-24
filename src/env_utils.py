@@ -23,18 +23,20 @@ def flatten_obs(obs):
     """
     return np.array(obs, dtype=np.float32).flatten()
 
+import numpy as np
+
 def discrete_to_continuous_action(action_idx):
     """
     translates the AI's simple choice (0-5) into real joystick movements [Steering, Gas/Brake].
-    -1.0 means full left or full brake. 1.0 means full right or full gas.
+    updated mapping provides smooth cornering and traction control to prevent spin-outs.
     """
     action_map = {
-        0: [-1.0, -1.0], # left + brake
-        1: [-1.0,  1.0], # left + forward
-        2: [ 0.0, -1.0], # straight + brake
-        3: [ 0.0,  1.0], # straight + forward
-        4: [ 1.0, -1.0], # right + brake
-        5: [ 1.0,  1.0]  # right + forward
+        0: [-0.5,  0.5], # Soft Left + Half Gas (Smooth lane keeping)
+        1: [-1.0, -0.5], # Hard Left + Brake (Emergency cornering)
+        2: [ 0.0, -1.0], # Straight + Hard Brake
+        3: [ 0.0,  1.0], # Straight + Full Gas (Straightaway speed)
+        4: [ 0.5,  0.5], # Soft Right + Half Gas (Smooth lane keeping)
+        5: [ 1.0, -0.5]  # Hard Right + Brake (Emergency cornering)
     }
     
     # return the mapped action. If something goes wrong, default to [0.0, 0.0] (do nothing)
