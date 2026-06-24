@@ -11,7 +11,7 @@ class DQNAgent:
         self.action_size = action_size
         self.gamma = gamma
 
-        # 1. two networks: A primary Q-network and a Target network
+        # 1. two networks: a primary Q-network and a Target network
         self.policy_net = DQNNetwork(state_size, action_size)
         self.target_net = DQNNetwork(state_size, action_size)
 
