@@ -8,7 +8,7 @@ from src.agent import DQNAgent
 
 def train_agent(num_episodes=1000):
     # 1. setup Environment
-    env = create_env()
+    env = create_env(start_seed=42,num_scenarios=20)
     
     # 2. optimized Hyperparameters
     batch_size = 128

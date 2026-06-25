@@ -2,13 +2,13 @@ import numpy as np
 from metadrive.envs.metadrive_env import MetaDriveEnv
 
 
-def create_env():
+def create_env(start_seed=42,num_scenarios=1):
     """
     sets up the MetaDrive game with the exact rules we want for training
     """
     config = {
-        "num_scenarios": 1,         
-        "start_seed": 42,            
+        "num_scenarios": num_scenarios,  # number of different road layouts to train on
+        "start_seed": start_seed,            
         "use_render": False,        # turn ON graphics if GPU is available (for teammates)
         "crash_vehicle_done": True, # end the game immediately if the car crashes into something
         "out_of_route_done": True   # end the game immediately if the car drives off the road
@@ -30,14 +30,14 @@ def discrete_to_continuous_action(action_idx):
     translates the AI's simple choice (0-5) into real joystick movements [Steering, Gas/Brake].
     updated mapping provides smooth cornering and traction control to prevent spin-outs.
     """
+
     action_map = {
-        0: [-0.5,  0.5], # Soft Left + Half Gas (Smooth lane keeping)
-        1: [-1.0, -0.5], # Hard Left + Brake (Emergency cornering)
-        2: [ 0.0, -1.0], # Straight + Hard Brake
-        3: [ 0.0,  1.0], # Straight + Full Gas (Straightaway speed)
-        4: [ 0.5,  0.5], # Soft Right + Half Gas (Smooth lane keeping)
-        5: [ 1.0, -0.5]  # Hard Right + Brake (Emergency cornering)
-    }
-    
+            0: [-0.5, -0.5], # 0: Left + Brake
+            1: [-0.5,  0.7], # 1: Left + Forward
+            2: [ 0.0, -1.0], # 2: Straight + Brake (Heavy emergency brake)
+            3: [ 0.0,  0.8], # 3: Straight + Forward (Cruising throttle)
+            4: [ 0.5, -0.5], # 4: Right + Brake
+            5: [ 0.5,  0.7]  # 5: Right + Forward
+        }
     # return the mapped action. If something goes wrong, default to [0.0, 0.0] (do nothing)
     return np.array(action_map.get(action_idx, [0.0, 0.0]))
