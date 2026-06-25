@@ -16,10 +16,10 @@ def train_agent(num_episodes=5000):
     hidden_size = 256
     sync_target_freq = 20  # Sync target network every 20 episodes
     
-    # Epsilon scheduling tailored for 1000 episodes
+    # Epsilon scheduling tailored for 5000 episodes
     epsilon = 1.0
     epsilon_decay = 0.999
-    min_epsilon = 0.5
+    min_epsilon = 0.05
     
     # 3. initialize Agent and Custom Memory Bank
     state_size = 259 
@@ -105,7 +105,7 @@ def train_agent(num_episodes=5000):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train the DQN agent on MetaDrive")
-    parser.add_argument("--episodes", type=int, default=1000, help="Number of training episodes")
+    parser.add_argument("--episodes", type=int, default=5000, help="Number of training episodes")
     
     args = parser.parse_args()
     

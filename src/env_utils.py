@@ -11,7 +11,11 @@ def create_env(start_seed,num_scenarios):
         "start_seed": start_seed,            
         "use_render": False,        
         "crash_vehicle_done": True, # end the game immediately if the car crashes into something
-        "out_of_route_done": True   # end the game immediately if the car drives off the road
+        "out_of_route_done": True,   # end the game immediately if the car drives off the road
+        #  THE BALANCED REWARD SHAPING 
+        "crash_vehicle_penalty": 50.0,  
+        "out_of_road_penalty": 50.0,    
+        "success_reward": 200.0,
     }
     return MetaDriveEnv(config)
 
