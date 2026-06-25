@@ -78,10 +78,10 @@ def evaluate_agent(num_episodes, start_seed, num_scenarios):
         "start_seed": start_seed
     }
     
-    with open("models/evaluation_report.json", "w") as file:
+    with open("Evaluation/evaluation_report.json", "w") as file:
         json.dump(report_data, file, indent=4)
         
-    print("[info] evaluation metrics saved to models/evaluation_report.json")
+    print("evaluation metrics saved to Evaluation/evaluation_report.json")
     
     env.close()
 
