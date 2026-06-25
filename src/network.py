@@ -2,7 +2,7 @@ import torch.nn as nn
 
 class DQNNetwork(nn.Module):
 
-    def __init__(self, state_size, hidden_size=64, action_size=6):
+    def __init__(self, state_size, hidden_size, action_size=6):
         super(DQNNetwork, self).__init__()
         
         # layer 1: Takes in the 259 game numbers 
@@ -13,7 +13,7 @@ class DQNNetwork(nn.Module):
         self.fc2 = nn.Linear(hidden_size, hidden_size)
         self.relu2 = nn.ReLU()
         
-        # layer 3 (Output): connects the 64 neurons down to our 6 final choices (actions)
+        # layer 3 (Output): connects the 256/512/128/64 neurons down to our 6 final choices (actions)
         self.fc3 = nn.Linear(hidden_size, action_size)
 
 

@@ -33,11 +33,11 @@ def discrete_to_continuous_action(action_idx):
 
     action_map = {
             0: [-0.8, -0.95], # 0: Left + Brake
-            1: [-0.4,  0.7], # 1: Left + Forward
+            1: [-0.55,  0.7], # 1: Left + Forward
             2: [ 0.0, -1.0], # 2: Straight + Brake (Heavy emergency brake)
             3: [ 0.0,  0.8], # 3: Straight + Forward (Cruising throttle)
             4: [ 0.8, -0.95], # 4: Right + Brake
-            5: [ 0.4,  0.7]  # 5: Right + Forward
+            5: [ 0.55,  0.7]  # 5: Right + Forward
         }
     # return the mapped action. If something goes wrong, default to [0.0, 0.0] (do nothing)
     return np.array(action_map.get(action_idx, [0.0, 0.0]))

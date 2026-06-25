@@ -6,14 +6,16 @@ import random
 from src.network import DQNNetwork
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, lr=3e-4, gamma=0.99):
+    def __init__(self, state_size,hidden_size, action_size, lr=3e-4, gamma=0.99):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma
-
+        self.lr = lr
+        self.hidden_size = hidden_size
+        
         # 1. two networks: a primary Q-network and a Target network
-        self.policy_net = DQNNetwork(state_size, action_size)
-        self.target_net = DQNNetwork(state_size, action_size)
+        self.policy_net = DQNNetwork(state_size, hidden_size , action_size=action_size)
+        self.target_net = DQNNetwork(state_size, hidden_size , action_size=action_size)
 
         # copy the exact starting weights from policy to target
         self.target_net.load_state_dict(self.policy_net.state_dict())

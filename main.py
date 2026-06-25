@@ -6,25 +6,26 @@ from src.env_utils import create_env, flatten_obs, discrete_to_continuous_action
 from src.replay_buffer import ReplayBuffer
 from src.agent import DQNAgent
 
-def train_agent(num_episodes=1000):
+def train_agent(num_episodes=5000):
     # 1. setup Environment
     env = create_env(start_seed=10,num_scenarios=10)
     
     # 2. optimized Hyperparameters
     batch_size = 128
-    gamma = 0.99
-    sync_target_freq = 10  # Sync target network every 5 episodes
+    gamma = 0.995 # increased discount factor to prioritize long-term rewards
+    hidden_size = 256
+    sync_target_freq = 20  # Sync target network every 20 episodes
     
     # Epsilon scheduling tailored for 1000 episodes
     epsilon = 1.0
-    epsilon_decay = 0.996
-    min_epsilon = 0.10
+    epsilon_decay = 0.999
+    min_epsilon = 0.5
     
     # 3. initialize Agent and Custom Memory Bank
     state_size = 259 
     action_size = 6
-    memory = ReplayBuffer(capacity=50000)  # Safe capacity for 1000 episodes
-    agent = DQNAgent(state_size, action_size, gamma=gamma)
+    memory = ReplayBuffer(capacity=50000)  # Safe capacity for 5000 episodes
+    agent = DQNAgent(state_size, hidden_size, action_size, gamma=gamma)
     
     # 4. tracking Arrays for Task 8 Reports
     rewards_history = []
