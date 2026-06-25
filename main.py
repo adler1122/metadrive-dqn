@@ -8,12 +8,12 @@ from src.agent import DQNAgent
 
 def train_agent(num_episodes=1000):
     # 1. setup Environment
-    env = create_env(start_seed=42,num_scenarios=20)
+    env = create_env(start_seed=10,num_scenarios=10)
     
     # 2. optimized Hyperparameters
     batch_size = 128
     gamma = 0.99
-    sync_target_freq = 5  # Sync target network every 5 episodes
+    sync_target_freq = 10  # Sync target network every 5 episodes
     
     # Epsilon scheduling tailored for 1000 episodes
     epsilon = 1.0
