@@ -6,24 +6,18 @@ import torch
 from src.env_utils import create_env, flatten_obs, discrete_to_continuous_action
 from src.agent import DQNAgent
 
-def evaluate_agent(num_episodes):
-    # initialize environment
-    env = create_env()
+def evaluate_agent(num_episodes, start_seed, num_scenarios):
+    # initialize environment with custom map settings
+    env = create_env(start_seed=start_seed, num_scenarios=num_scenarios)
     
-    # initialize agent architecture
     state_size = 259 
     action_size = 6
     agent = DQNAgent(state_size, action_size)
     
-    # load trained weights and set network to evaluation mode
     agent.policy_net.load_state_dict(torch.load("models/dqn_trained.pt"))
     agent.policy_net.eval()
     
 
-    print(f"starting evaluation for {num_episodes} episodes")
-
-    
-    # initialize tracking metrics
     total_rewards = []
     success_count = 0
     out_of_road_count = 0
@@ -32,12 +26,10 @@ def evaluate_agent(num_episodes):
     for episode in range(1, num_episodes + 1):
         obs, info = env.reset()
         state = flatten_obs(obs)
-        
         episode_reward = 0
         steps = 0
         
         while True:
-            # bypass exploration by strictly using policy network predictions
             action_idx = agent.act(state, epsilon=0.0)
             continuous_action = discrete_to_continuous_action(action_idx)
             
@@ -49,7 +41,6 @@ def evaluate_agent(num_episodes):
             steps += 1
             
             if done:
-                # categorize termination reason
                 if info.get("arrive_dest", False):
                     success_count += 1
                     reason = "success"
@@ -70,8 +61,7 @@ def evaluate_agent(num_episodes):
     out_of_road_rate = (out_of_road_count / num_episodes) * 100
     crash_vehicle_rate = (crash_vehicle_count / num_episodes) * 100
 
-    
-    print("evaluation summary") 
+
     print(f"average reward:      {average_reward:.2f}")
     print(f"success rate:        {success_rate:.1f}%")
     print(f"out of road rate:    {out_of_road_rate:.1f}%")
@@ -83,20 +73,23 @@ def evaluate_agent(num_episodes):
         "average_reward": average_reward,
         "success_rate": success_rate,
         "out_of_road_rate": out_of_road_rate,
-        "crash_vehicle_rate": crash_vehicle_rate
+        "crash_vehicle_rate": crash_vehicle_rate,
+        "tested_scenarios": num_scenarios,
+        "start_seed": start_seed
     }
     
-    with open("Evaluation/evaluation_report.json", "w") as file:
+    with open("models/evaluation_report.json", "w") as file:
         json.dump(report_data, file, indent=4)
         
-    print("[info] evaluation metrics saved to Evaluation/evaluation_report.json")
+    print("[info] evaluation metrics saved to models/evaluation_report.json")
     
     env.close()
 
 if __name__ == "__main__":
-    # parse command line arguments for episode count
-    parser = argparse.ArgumentParser(description="evaluate trained dqn agent performance")
-    parser.add_argument("--episodes", type=int, default=20, help="number of evaluation episodes")
+    parser = argparse.ArgumentParser(description="evaluate trained dqn agent across multiple maps")
+    parser.add_argument("--episodes", type=int, default=10, help="number of evaluation episodes")
+    parser.add_argument("--seed", type=int, default=42, help="starting map seed")
+    parser.add_argument("--scenarios", type=int, default=1, help="number of different maps to test")
     
     args = parser.parse_args()
-    evaluate_agent(args.episodes)
+    evaluate_agent(args.episodes, args.seed, args.scenarios)
