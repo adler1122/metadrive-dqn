@@ -15,7 +15,8 @@ def evaluate_agent(num_episodes, start_seed, num_scenarios):
     hidden_size = 256
     agent = DQNAgent(state_size,hidden_size, action_size)
     
-    agent.policy_net.load_state_dict(torch.load("models/dqn_trained.pt"))
+
+    agent.policy_net.load_state_dict(torch.load("models/dqn_trained.pt", map_location='cpu'))
     agent.policy_net.eval()
     
 

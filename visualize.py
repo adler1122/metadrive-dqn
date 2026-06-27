@@ -16,8 +16,11 @@ def watch_agent_drive(view_mode="3D", num_episodes=5, start_seed=42, num_scenari
     env = MetaDriveEnv(config)
     
     # initialize and load the trained brain
-    agent = DQNAgent(259,256, 6)
-    agent.policy_net.load_state_dict(torch.load("models/dqn_trained.pt"))
+    state_size = 259
+    action_size = 6
+    hidden_size = 512
+    agent = DQNAgent(state_size, hidden_size, action_size)
+    agent.policy_net.load_state_dict(torch.load("models/dqn_trained.pt", map_location='cpu'))
     agent.policy_net.eval()
     
 
