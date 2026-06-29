@@ -90,7 +90,7 @@ def evaluate_agent(num_episodes, start_seed, num_scenarios):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="evaluate trained dqn agent across multiple maps")
     parser.add_argument("--episodes", type=int, default=100, help="number of evaluation episodes")
-    parser.add_argument("--seed", type=int, default=21, help="starting map seed")
+    parser.add_argument("--seed", type=int, default=51, help="starting map seed")
     parser.add_argument("--scenarios", type=int, default=100, help="number of different maps to test")
     
     args = parser.parse_args()
