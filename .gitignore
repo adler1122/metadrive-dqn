@@ -9,7 +9,7 @@ __pycache__/
 *$py.class
 
 # Models and Checkpoints
-models/
+#models/
 
 # OS generated files
 .DS_Store
