@@ -18,7 +18,7 @@ python visualize.py --mode --episodes --seed --scenarios
 """ 
 parser.add_argument("--mode", type=str, default="3D", choices=["3D", "top_down"])
 parser.add_argument("--episodes", type=int, default=100, help="number of attempts to watch")
-parser.add_argument("--seed", type=int, default=51, help="starting map seed for testing")
+parser.add_argument("--seed", type=int, default=21, help="starting map seed for testing")
 parser.add_argument("--scenarios", type=int, default=100, help="number of unique maps to cycle through")
 """
 
@@ -28,7 +28,7 @@ To test the zero-shot generalization of agent on completelyunseen maps
 python evaluate.py --episodes --seed --scenarios
 """
 parser.add_argument("--episodes", type=int, default=100, help="number of evaluation episodes")
-parser.add_argument("--seed", type=int, default=51, help="starting map seed")
+parser.add_argument("--seed", type=int, default=21, help="starting map seed")
 parser.add_argument("--scenarios", type=int, default=100, help="number of different maps to test")
 """
 (this will output the success/crash/out-of-road rates)
@@ -39,7 +39,7 @@ If you wish to train a new model, you can run main.py and pass the
 training parameters via command line arguments.
 python main.py --episodes --seed --scenarios
 """
-parser.add_argument("--episodes", type=int, default=25000, help="Number of training episodes")
+parser.add_argument("--episodes", type=int, default=10000, help="Number of training episodes")
 parser.add_argument("--seed", type=int, default=1, help="starting map seed")
-parser.add_argument("--scenarios", type=int, default=50, help="number of different maps to train on")
+parser.add_argument("--scenarios", type=int, default=20, help="number of different maps to train on")
 """

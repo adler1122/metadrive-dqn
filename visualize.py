@@ -55,7 +55,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="visualize the agent across multiple maps")
     parser.add_argument("--mode", type=str, default="3D", choices=["3D", "top_down"])
     parser.add_argument("--episodes", type=int, default=100, help="number of attempts to watch")
-    parser.add_argument("--seed", type=int, default=51, help="starting map seed for testing")
+    parser.add_argument("--seed", type=int, default=21, help="starting map seed for testing")
     parser.add_argument("--scenarios", type=int, default=100, help="number of unique maps to cycle through")
     args = parser.parse_args()
     

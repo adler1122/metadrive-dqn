@@ -6,7 +6,7 @@ from src.env_utils import create_env, flatten_obs, discrete_to_continuous_action
 from src.replay_buffer import ReplayBuffer
 from src.agent import DQNAgent
 
-def train_agent(num_episodes=25000, start_seed=1, num_scenarios=50):
+def train_agent(num_episodes=10000, start_seed=1, num_scenarios=20):
     # 0. hardware detection
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # 1. setup Environment
@@ -16,17 +16,17 @@ def train_agent(num_episodes=25000, start_seed=1, num_scenarios=50):
     batch_size = 256 
     gamma = 0.995 # increased discount factor to prioritize long-term rewards
     hidden_size = 512  # Increased hidden layer size
-    sync_target_freq = 50  # Sync target network every 50 episodes
+    sync_target_freq = 40  # Sync target network every 40 episodes
     
-    # Epsilon scheduling tailored for 25000 episodes
+    # Epsilon scheduling tailored for 10000 episodes
     epsilon = 1.0
-    epsilon_decay = 0.9998
+    epsilon_decay = 0.9995
     min_epsilon = 0.05
     
     # 3. initialize Agent and Custom Memory Bank
     state_size = 259 
     action_size = 6
-    memory = ReplayBuffer(capacity=250000)  # Safe capacity for 25000 episodes
+    memory = ReplayBuffer(capacity=100000)  # Safe capacity for 10000 episodes
     agent = DQNAgent(state_size, hidden_size, action_size, gamma=gamma,device=device)
     
     # 4. tracking Arrays for  Reports
@@ -107,9 +107,9 @@ def train_agent(num_episodes=25000, start_seed=1, num_scenarios=50):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train the DQN agent on MetaDrive")
-    parser.add_argument("--episodes", type=int, default=25000, help="Number of training episodes")
+    parser.add_argument("--episodes", type=int, default=10000, help="Number of training episodes")
     parser.add_argument("--seed", type=int, default=1, help="starting map seed")
-    parser.add_argument("--scenarios", type=int, default=50, help="number of different maps to train on")
+    parser.add_argument("--scenarios", type=int, default=20, help="number of different maps to train on")
     args = parser.parse_args()
     
     
